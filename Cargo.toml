@@ -1,0 +1,12 @@
+[package]
+name = "kraken_rest"
+version = "0.1.0"
+edition = "2021"
+authors = ["neuronull <neuronull@pm.me>"]
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+thiserror = "1"
+
