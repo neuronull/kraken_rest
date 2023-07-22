@@ -1,17 +1,13 @@
-use serde::Deserialize;
 use thiserror::Error;
 
-#[derive(Error, Debug, Clone, Deserialize)]
+#[derive(Error, Debug)]
 pub enum Error {
-    #[error("HTTP request error: {err}")]
-    HttpError { err: String, status: Option<u16> },
-}
-
-impl From<reqwest::Error> for Error {
-    fn from(e: reqwest::Error) -> Self {
-        Self::HttpError {
-            err: e.to_string(),
-            status: e.status().map(|c| c.as_u16()),
-        }
-    }
+    #[error("HTTP request error.")]
+    HttpError(#[from] reqwest::Error),
+    #[error("System time error.")]
+    SystemTimeError(#[from] std::time::SystemTimeError),
+    #[error("Base64 decode error.")]
+    Base64DecodeError(#[from] base64::DecodeError),
+    #[error("Client is not authorized. Are API env vars set?")]
+    Unauthorized,
 }
